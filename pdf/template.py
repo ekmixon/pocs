@@ -20,20 +20,17 @@ if d[:16].find("\r\n") > -1:
   RETCHAR = "\r\n"
 else:
   # if line endings are single character, then a trailing space must be added in each XREF entries
-  XREF_FAKE = XREF_FAKE + " "
-  XREF_DECL = XREF_DECL + " "
+  XREF_FAKE += " "
+  XREF_DECL += " "
 
-  if d[:16].find("\r") > -1:
-    RETCHAR = "\r"
-  else:
-    RETCHAR = "\n"
+  RETCHAR = "\r" if d[:16].find("\r") > -1 else "\n"
+import sys
 
-print "auto-detected line endings: %s" % `RETCHAR`
-STREAM_START = RETCHAR + "stream" + RETCHAR
-STREAM_END = RETCHAR + "endstream"
+STREAM_START = f"{RETCHAR}stream{RETCHAR}"
+STREAM_END = f"{RETCHAR}endstream"
 
 # standard declaration: add your own
-OBJ_DECL = RETCHAR + "%i 0 obj" + RETCHAR
+OBJ_DECL = f"{RETCHAR}%i 0 obj{RETCHAR}"
 
 def postproc(d, XREF=True):
 

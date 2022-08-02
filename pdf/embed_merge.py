@@ -17,8 +17,7 @@ def EnclosedString(d, starts, ends):
 
 def getCount(d):
   s = EnclosedString(d, "/Count ", "/")
-  count = int(s)
-  return count
+  return int(s)
 
 def procreate(l): # :p
   return " 0 R ".join(l) + " 0 R"
@@ -28,7 +27,7 @@ if len(sys.argv) < 4:
   print("Usage: pdf.py <source.pdf> <payload.bin> <final.pdf>")
   sys.exit()
 
-os.system(MUTOOL + ' merge -o first.pdf %s' % sys.argv[1])
+os.system(MUTOOL + f' merge -o first.pdf {sys.argv[1]}')
 
 with open(sys.argv[2], "rb") as f:
   payloadbin = f.read()
@@ -49,7 +48,7 @@ trailer<</Size 5/Root 1 0 R>>""" % locals())
 with open("first.pdf", "rb") as f:
   d1 = f.read()
 
-os.system(MUTOOL + ' merge -o merged.pdf first.pdf payload.pdf ')
+os.system(f'{MUTOOL} merge -o merged.pdf first.pdf payload.pdf ')
 
 with open("merged.pdf", "rb") as f:
   dm = f.read()
@@ -89,7 +88,7 @@ with open("hacked.pdf", "wb") as f:
   f.write(contents)
 
 # let's adjust offsets - -g to get rid of orphan objects by garbage collecting
-os.system(MUTOOL + ' clean -gggg  hacked.pdf %s' % sys.argv[3])
+os.system(MUTOOL + f' clean -gggg  hacked.pdf {sys.argv[3]}')
 
 for fn in ['first', 'payload', 'merged', 'hacked']:
-  os.remove("%s.pdf" % fn)
+  os.remove(f"{fn}.pdf")

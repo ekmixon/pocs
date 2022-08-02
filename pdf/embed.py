@@ -13,7 +13,7 @@ import os, sys, struct
 ATTACHED = True
 
 def createAttachment(doc, name, data):
-	doc.embeddedFileAdd(name, data, name, name + "_")
+	doc.embeddedFileAdd(name, data, name, f"{name}_")
 
 
 def addStreamData(doc, data):
@@ -65,4 +65,4 @@ doc.close()
 
 if not ATTACHED:
 	adjustZIPcomment(pdf)
-	os.system('zip -F %s --out F%s' % (pdf, pdf))
+	os.system(f'zip -F {pdf} --out F{pdf}')

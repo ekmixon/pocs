@@ -91,7 +91,7 @@ SIZEOFOPTIONALHEADER equ $ - OptionalHeader
 
 with open("_hdr.as_", "wt") as f:
     f.write(header)
-os.system("yasm -o %s _hdr.as_" % fn)
+os.system(f"yasm -o {fn} _hdr.as_")
 os.remove("_hdr.as_")
 
 sec = ""
@@ -109,7 +109,7 @@ for i in range(NbSec - 1):
     sec += chr(0) * 4 * 2 + struct.pack("<4L", vs, va, ps, pa) + chr(0) * 4 * 3 + struct.pack("<L", 0xe00000c0)
 
 sec += (FstSecOff - SizeOfHeaders) * chr(0)
-with open("%s" % fn, "ab") as f:
+with open(f"{fn}", "ab") as f:
     f.write(sec)
 
 firstsec = """
@@ -207,5 +207,5 @@ with open("_1st.bi_", "rb") as f:
 os.remove("_1st.bi_")
 
 r += (NbSec - 1) * SECTIONALIGN * SizeFactor * chr(0)
-with open("%s" % fn, "ab") as f:
+with open(f"{fn}", "ab") as f:
     f.write(r)

@@ -18,8 +18,7 @@ def gcm_decrypt(_key,_nonce,_ctxt,_tag,_ad):
 
 	decryptor.authenticate_additional_data(_ad)
 
-	pt = decryptor.update(_ctxt) + decryptor.finalize()
-	return pt
+	return decryptor.update(_ctxt) + decryptor.finalize()
 
 
 if __name__=='__main__':
@@ -31,10 +30,10 @@ if __name__=='__main__':
 		l = line.split(b": ")
 		vars()[l[0].decode("utf-8")] = binascii.unhexlify(l[1].strip().decode("utf-8"))
 
-	assert not key1 == key2
+	assert key1 != key2
 	plaintxt1 = gcm_decrypt(key1, nonce, ciphertext, tag, adata)
 	plaintxt2 = gcm_decrypt(key2, nonce, ciphertext, tag, adata)
-	assert not plaintxt1 == plaintxt2
+	assert plaintxt1 != plaintxt2
 
 	success = False
 	try:
